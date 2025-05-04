@@ -19,3 +19,10 @@ class Player(Entity):
         x = self.Position.x + (self.Direction.x * self.Speed)
         y = self.Position.y + (self.Direction.y * self.Speed)
         self.SetPosition(x,y)
+
+class Food(Entity):
+    def __init__(self, SizeX, SizeY, Color):
+        super().__init__()
+        self.SetSize(SizeX, SizeY)
+        self.SetColor(Color)
+    
