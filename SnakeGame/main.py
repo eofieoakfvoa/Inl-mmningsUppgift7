@@ -1,6 +1,8 @@
 from game import *
-pygame.init()
-Game = GameSystem()
-
+from gameloop import *
 def main():
-    pass
+    pygame.init()
+    GameSystem()
+
+if __name__ == "__main__":
+    main()
