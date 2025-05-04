@@ -4,6 +4,7 @@ class Entity():
         self.Position = pygame.Vector2(0,0)
         self.Size = pygame.Vector2(0,0)    
         self.Color = None
+        self.renderID = None
     def SetSize(self, x,y):
         if x < 0 or y < 0:
             print("INVALID NUMBER!!!!!!!!!! >:(")

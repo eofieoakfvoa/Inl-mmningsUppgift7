@@ -34,6 +34,6 @@ class GameSystem():
     def DrawRectangle(size : pygame.Vector2, position : pygame.Vector2, color : Color):
         pass
     def AddObjectToRenderer(self, object):
-        return self.Renderer.Add(object)
+        self.Renderer.Add(object)
     def WaitForTick(self):
         self.Clock.tick(self.TickRate)

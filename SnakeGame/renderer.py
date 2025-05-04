@@ -9,13 +9,14 @@ class Renderer():
     def Add(self, Item):
         firstEmpty = self.FindFirstEmpty()
         self.RenderDictionary[firstEmpty] = Item
-        print("added")
-        return firstEmpty
+        Item.renderID = firstEmpty
     def FindFirstEmpty(self):
         i = 0
         while self.RenderDictionary.get(i) is not None:
             i += 1
         return i
+    def Remove(self,renderID):
+        del self.RenderDictionary[renderID]
     def Draw(self):
         for i in self.RenderDictionary:
             Entity = self.RenderDictionary[i]

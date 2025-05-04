@@ -4,10 +4,9 @@ class snakegame():
     def __init__(self):
          self.GameLoop()
     gameSystem = GameSystem()
-    Player = Player()
-    Player.SetSize(15, 15)
-    Player.SetColor(gameSystem.Color.Red.value)
-    PlayerID = gameSystem.AddObjectToRenderer(Player)
+    Player = Player(15,15, gameSystem.Color.Red.value, 3)
+    Player.SetPosition(gameSystem.Resolution.x / 2, gameSystem.Resolution.y / 2)
+    gameSystem.AddObjectToRenderer(Player)
 
     def GameLoop(self):
         while self.gameSystem.IsRunning():
