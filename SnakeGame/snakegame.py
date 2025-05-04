@@ -5,21 +5,23 @@ class snakegame():
          self.GameLoop()
     gameSystem = GameSystem()
     Player = Player()
-    Player.SetSize(5, 5)
+    Player.SetSize(15, 15)
     Player.SetColor(gameSystem.Color.Red.value)
     PlayerID = gameSystem.AddObjectToRenderer(Player)
 
     def GameLoop(self):
         while self.gameSystem.IsRunning():
             self.EventHandler()
+            self.GameLogic()
+            print(self.Player.Position)
+            self.gameSystem.GameDisplay.fill(self.gameSystem.Color.White.value)
             self.gameSystem.Renderer.Draw()
-            print(self.Player.Direction)
-            pygame.display.update()
+            self.gameSystem.Update()            
 
-            self.gameSystem.WaitForTick()            
         pygame.quit()
         quit()
-
+    def GameLogic(self):
+        self.Player.MovePlayer()
     def EventHandler(self):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:

@@ -9,5 +9,7 @@ class Entity():
             print("INVALID NUMBER!!!!!!!!!! >:(")
         else:
             self.Size = pygame.Vector2(x,y)
+    def SetPosition(self, x,y):
+        self.Position = pygame.Vector2(x,y)
     def SetColor(self, color):
         self.Color = color

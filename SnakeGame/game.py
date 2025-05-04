@@ -11,6 +11,7 @@ class GameSystem():
     TickRate = 30
     Renderer = None
     Clock = pygame.time.Clock()
+
     def __init__(self):
         self.GameDisplay = pygame.display.set_mode((self.Resolution.x, self.Resolution.y))
         self.Renderer = Renderer(self.GameDisplay)
@@ -21,9 +22,13 @@ class GameSystem():
         White = (255, 255, 255)
         Black = (0, 0, 0)
         Red = (255, 0, 0)
-    
+
+    def Update(self):
+        pygame.display.update()
+        self.WaitForTick()      
+
     def IsRunning(self):
-        return  self.Running
+        return self.Running
     def StopRunning(self):
         self.Running = False
     def DrawRectangle(size : pygame.Vector2, position : pygame.Vector2, color : Color):
