@@ -1,11 +1,18 @@
 import pygame
 class GameSystem():
         
-    def __init__(self):
-        GameSystem.Initialize()
     Resolution = pygame.Vector2(400, 300) #använder vector2 eftersom det är lättare att använda .x och .y 
     Title = "Snake Game"
     GameDisplay = None 
-    def Initialize():
-        GameDisplay = pygame.display.set_mode((GameSystem.Resolution.x, GameSystem.Resolution.y))
+    Running = False
+    
+    def __init__(self):
+        self.Initialize()
+    
+    
+    def IsRunning(self):
+        return  self.Running
+    def Initialize(self):
+        self.GameDisplay = pygame.display.set_mode((self.Resolution.x, self.Resolution.y))
         pygame.display.set_caption("Snake game")
+        self.Running = True

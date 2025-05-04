@@ -3,9 +3,9 @@ from game import *
 pygame.init()
 Game = GameSystem()
 pygame.display.update()
-game_over = False
-while not game_over:
+while Game.IsRunning():
     for event in pygame.event.get():
-        print(event)
+        if event.type==pygame.QUIT:
+            Game.Running = False #fixa senare
 pygame.quit()
 quit()
