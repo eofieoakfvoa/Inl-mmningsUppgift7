@@ -8,7 +8,7 @@ class GameSystem():
     Title = "Snake Game"
     GameDisplay = None 
     Running = False
-    TickRate = 30
+    TickRate = 15
     Renderer = None
     Clock = pygame.time.Clock()
 

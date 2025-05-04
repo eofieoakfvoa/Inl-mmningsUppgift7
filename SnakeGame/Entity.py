@@ -13,4 +13,7 @@ class Entity():
     def SetPosition(self, x,y):
         self.Position = pygame.Vector2(x,y)
     def SetColor(self, color):
+        if isinstance(color, tuple):
+            self.Color = color
+            return
         self.Color = color.value

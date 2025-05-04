@@ -10,6 +10,7 @@ class snakegame():
     Player.SetPosition(gameSystem.Resolution.x / 2, gameSystem.Resolution.y / 2)
     gameSystem.AddObjectToRenderer(Player)
     Food = None
+    latestUpdatedBodyPartCount = 1
     def GameLoop(self):
         while self.gameSystem.IsRunning():
             self.EventHandler()
@@ -17,7 +18,8 @@ class snakegame():
             self.gameSystem.GameDisplay.fill(self.gameSystem.Color.White.value)
             self.gameSystem.Renderer.Draw()
             self.gameSystem.Update()            
-
+            for i in range(1,len(self.Player.BodyDictionary)):
+                print(self.Player.BodyDictionary[i].Position)
         pygame.quit()
         quit()
 
@@ -25,10 +27,15 @@ class snakegame():
         if self.foodExists == False:
             self.AddFood()
         self.Player.MovePlayer()
+        self.UpdatePlayerBodyPartCount()
         if self.Player.Position.x >= GameSystem.Resolution.x or self.Player.Position.x < 0 or self.Player.Position.y >= GameSystem.Resolution.y or self.Player.Position.y < 0:
             self.gameSystem.StopRunning()
         if self.Food.Position.x == self.Player.Position.x and self.Food.Position.y == self.Player.Position.y:
             print("WAAAAAAAAAAAH")
+    def UpdatePlayerBodyPartCount(self):
+        if self.latestUpdatedBodyPartCount != self.Player.BodyPartCount:
+            self.gameSystem.AddObjectToRenderer(self.Player.BodyDictionary[self.Player.BodyPartCount])
+            self.latestUpdatedBodyPartCount = self.Player.BodyPartCount
     def EventHandler(self):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -42,7 +49,8 @@ class snakegame():
                     self.Player.ChangeDirection(self.Player.DirectionList.Up)
                 elif event.key == pygame.K_DOWN:
                     self.Player.ChangeDirection(self.Player.DirectionList.Down)
-
+                elif event.key  == pygame.K_c:
+                    self.Player.AddBodyPart()
     def AddFood(self):
         NewFood = Food(15,15, GameSystem.Color.Black)
         foodX = round(random.randrange(0, int(GameSystem.Resolution.x) - 15) / 10.0) * 10.0
@@ -51,3 +59,4 @@ class snakegame():
         self.gameSystem.AddObjectToRenderer(NewFood)
         self.Food = NewFood
         self.foodExists = True
+    
