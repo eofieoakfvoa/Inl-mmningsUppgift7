@@ -1,8 +1,7 @@
-from game import *
-from gameloop import *
+from snakegame import *
 def main():
     pygame.init()
-    GameSystem()
+    snakegame()
 
 if __name__ == "__main__":
     main()

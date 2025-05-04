@@ -1,5 +1,7 @@
 import pygame
 from enum import Enum
+from renderer import *
+
 class GameSystem():
         
     Resolution = pygame.Vector2(400, 300) #använder vector2 eftersom det är lättare att använda .x och .y 
@@ -7,11 +9,15 @@ class GameSystem():
     GameDisplay = None 
     Running = False
     TickRate = 30
+    Renderer = None
     def __init__(self):
         self.GameDisplay = pygame.display.set_mode((self.Resolution.x, self.Resolution.y))
+        self.Renderer = Renderer(self.GameDisplay)
         pygame.display.set_caption("Snake game")
         self.Running = True
-        self.GameLoop()
+        
+    def StopRunning(self):
+        self.Running = False
     
     def IsRunning(self):
         return  self.Running
@@ -22,18 +28,5 @@ class GameSystem():
         Red = (255, 0, 0)
     def DrawRectangle(size : pygame.Vector2, position : pygame.Vector2, color : Color):
         pass
-
-    def GameLoop(self):
-        while self.IsRunning():
-            self.EventHandler()
-            self.Renderer()
-            pygame.display.update()            
-        pygame.quit()
-        quit()
-    def EventHandler(self):
-        for event in pygame.event.get():
-                if event.type==pygame.QUIT:
-                    self.Running = False #fixa senare
-    def Renderer(self):
-        
-        pygame.draw.rect(self.GameDisplay, self.Color.Red.value, [200,150,10,10])
+    def AddObjectToRenderer(self, object):
+        return self.Renderer.Add(object)
