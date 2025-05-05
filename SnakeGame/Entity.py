@@ -4,7 +4,7 @@ class Entity():
         self.Position = pygame.Vector2(0,0)
         self.Size = pygame.Vector2(0,0)    
         self.Color = None
-        self._renderID = None #inte private eftersom den används i renderer.py
+        self.renderID = None 
     def SetSize(self, x,y):
         if x < 0 or y < 0:
             print("INVALID NUMBER!!!!!!!!!! >:(")

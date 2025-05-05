@@ -10,18 +10,12 @@ class Player(Entity):
         self.BodyPartCount = 1
         self._Direction = pygame.Vector2(0,0)
 
-    class DirectionList(Enum):
-        Up = pygame.Vector2(0, -1)
-        Down = pygame.Vector2(0, 1)
-        Right = pygame.Vector2(1, 0)
-        Left = pygame.Vector2(-1, 0)
-
     def ChangeDirection(self, direction):
         if self.IsReverseDirection(direction): return
         self._Direction = direction.value
 
     def IsReverseDirection(self, direction):
-        return self._Direction + direction.value == pygame.Vector2(0,0)
+        return self._Direction + direction.value == pygame.Vector2(0,0) #ifall det är motsatta 
     
     def MovePlayer(self):
 
@@ -36,8 +30,10 @@ class Player(Entity):
         self.BodyPartCount = self.BodyPartCount + 1
         self.BodyDictionary[self.BodyPartCount] = newBodyPart
 
+    #sätter alla förutom huvudet på samma position som den framför den 
+    #jag tror ätt bättre sätt att göra samma sak är typ att ta bort den längst back sen lägga till en framför, då skulle man slippa en for loop, eftersom alla imellan ser ut som de är på samma plats
     def _BodyTrail(self, previous):
-        if self.BodyPartCount == 0: return
+        if self.BodyPartCount == 1: return
         for i in range(self.BodyPartCount, 1, -1):
             self.BodyDictionary[i].Position = pygame.Vector2(self.BodyDictionary[i-1].Position)
         self.BodyDictionary[1].Position = pygame.Vector2(previous)
@@ -48,7 +44,7 @@ class BodyPart(Entity):
         self.SetSize(SizeX, SizeY)
         self.SetColor(Color)
 
-class Food(Entity):
+class Food(Entity): # Är ingen skillnad mellan dellan och BodyPart, skulle kunna göra så att färgen är by defualt så att de är annurlundna
     def __init__(self, SizeX, SizeY, Color):
         super().__init__()
         self.SetSize(SizeX, SizeY)
