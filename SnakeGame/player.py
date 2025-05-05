@@ -7,9 +7,8 @@ class Player(Entity):
         self.Speed = Speed
         self.SetColor(Color)
         self.BodyDictionary = {1 : self}
-        self.Direction = pygame.Vector2(0,0)
         self.BodyPartCount = 1
-        self.LastPlaceLastPosition = self.BodyDictionary[self.BodyPartCount].Position
+        self._Direction = pygame.Vector2(0,0)
 
     class DirectionList(Enum):
         Up = pygame.Vector2(0, -1)
@@ -18,12 +17,17 @@ class Player(Entity):
         Left = pygame.Vector2(-1, 0)
 
     def ChangeDirection(self, direction):
-        self.Direction = direction.value
+        if self.IsReverseDirection(direction): return
+        self._Direction = direction.value
+
+    def IsReverseDirection(self, direction):
+        return self._Direction + direction.value == pygame.Vector2(0,0)
+    
     def MovePlayer(self):
-        self.LastPlaceLastPosition = self.BodyDictionary[self.BodyPartCount].Position
-        self.BodyTrail(self.Position)
-        x = self.Position.x + (self.Direction.x * self.Speed)
-        y = self.Position.y + (self.Direction.y * self.Speed)
+
+        self._BodyTrail(self.Position)
+        x = self.Position.x + (self._Direction.x * self.Speed)
+        y = self.Position.y + (self._Direction.y * self.Speed)
         self.SetPosition(x,y)
 
     def AddBodyPart(self):
@@ -32,7 +36,7 @@ class Player(Entity):
         self.BodyPartCount = self.BodyPartCount + 1
         self.BodyDictionary[self.BodyPartCount] = newBodyPart
 
-    def BodyTrail(self, previous):
+    def _BodyTrail(self, previous):
         if self.BodyPartCount == 0: return
         for i in range(self.BodyPartCount, 1, -1):
             self.BodyDictionary[i].Position = pygame.Vector2(self.BodyDictionary[i-1].Position)

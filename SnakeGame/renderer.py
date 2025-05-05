@@ -6,17 +6,17 @@ class Renderer():
     def __init__(self, display):
         self.Display = display
 
-    def Add(self, Item):
+    def Add(self, Object):
         firstEmpty = self.FindFirstEmpty()
-        self.RenderDictionary[firstEmpty] = Item
-        Item.renderID = firstEmpty
+        self.RenderDictionary[firstEmpty] = Object
+        Object.RenderID = firstEmpty
     def FindFirstEmpty(self):
         i = 0
         while self.RenderDictionary.get(i) is not None:
             i += 1
         return i
-    def Remove(self,renderID):
-        del self.RenderDictionary[renderID]
+    def Remove(self,Object):
+        del self.RenderDictionary[Object.RenderID]
     def Draw(self):
         for i in self.RenderDictionary:
             Entity = self.RenderDictionary[i]

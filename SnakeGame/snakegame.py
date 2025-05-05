@@ -11,15 +11,15 @@ class snakegame():
     gameSystem.AddObjectToRenderer(Player)
     Food = None
     latestUpdatedBodyPartCount = 1
+    Score = 0
     def GameLoop(self):
         while self.gameSystem.IsRunning():
             self.EventHandler()
             self.GameLogic()
             self.gameSystem.GameDisplay.fill(self.gameSystem.Color.White.value)
+            self.DisplayScore()
             self.gameSystem.Renderer.Draw()
             self.gameSystem.Update()            
-            for i in range(1,len(self.Player.BodyDictionary)):
-                print(self.Player.BodyDictionary[i].Position)
         pygame.quit()
         quit()
 
@@ -28,14 +28,26 @@ class snakegame():
             self.AddFood()
         self.Player.MovePlayer()
         self.UpdatePlayerBodyPartCount()
-        if self.Player.Position.x >= GameSystem.Resolution.x or self.Player.Position.x < 0 or self.Player.Position.y >= GameSystem.Resolution.y or self.Player.Position.y < 0:
+        if self.Player.Position.x >= self.gameSystem.Resolution.x or self.Player.Position.x < 0 or self.Player.Position.y >= self.gameSystem.Resolution.y or self.Player.Position.y < 0:
             self.gameSystem.StopRunning()
         if self.Food.Position.x == self.Player.Position.x and self.Food.Position.y == self.Player.Position.y:
-            print("WAAAAAAAAAAAH")
+            self.Player.AddBodyPart()
+            self.RemoveFood()
+            self.Score = self.Score + 1
+            self.AddFood()
+        for Key in list(self.Player.BodyDictionary.values())[:-1]:
+            if Key == self.Player:
+                continue
+            if Key.Position == self.Player.Position:
+                print("DU SUGER!!!!!!!!!!!!!!!!!!!")
+    def DisplayScore(self):
+        self.gameSystem.DisplayText(f"Score is {self.Score}", 100, 200, self.gameSystem.Color.Black)
+
     def UpdatePlayerBodyPartCount(self):
         if self.latestUpdatedBodyPartCount != self.Player.BodyPartCount:
             self.gameSystem.AddObjectToRenderer(self.Player.BodyDictionary[self.Player.BodyPartCount])
             self.latestUpdatedBodyPartCount = self.Player.BodyPartCount
+
     def EventHandler(self):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -49,8 +61,7 @@ class snakegame():
                     self.Player.ChangeDirection(self.Player.DirectionList.Up)
                 elif event.key == pygame.K_DOWN:
                     self.Player.ChangeDirection(self.Player.DirectionList.Down)
-                elif event.key  == pygame.K_c:
-                    self.Player.AddBodyPart()
+
     def AddFood(self):
         NewFood = Food(15,15, GameSystem.Color.Black)
         foodX = round(random.randrange(0, int(GameSystem.Resolution.x) - 15) / 10.0) * 10.0
@@ -59,4 +70,8 @@ class snakegame():
         self.gameSystem.AddObjectToRenderer(NewFood)
         self.Food = NewFood
         self.foodExists = True
+
+    def RemoveFood(self):
+        self.gameSystem.RemoveObjectFromRenderer(self.Food)
+        self.Food = None
     
