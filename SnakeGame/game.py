@@ -15,10 +15,10 @@ class Color(Enum):
     Yellow = (255,255,0)
 
 class DirectionList(Enum):
-        Up = pygame.Vector2(0, -1)
-        Down = pygame.Vector2(0, 1)
-        Right = pygame.Vector2(1, 0)
-        Left = pygame.Vector2(-1, 0)
+    Up = pygame.Vector2(0, -1)
+    Down = pygame.Vector2(0, 1)
+    Right = pygame.Vector2(1, 0)
+    Left = pygame.Vector2(-1, 0)
 
 class GameSystem():
          
@@ -30,7 +30,7 @@ class GameSystem():
         self.Title = gametitle
         self.TickRate = maxfps
         self.GameDisplay = pygame.display.set_mode((self.Resolution.x, self.Resolution.y))
-        self.Renderer = Renderer(self.GameDisplay)
+        self._Renderer = Renderer(self.GameDisplay)
         pygame.display.set_caption(gametitle)
         self._Running = True
         pygame.font.init()
@@ -49,14 +49,16 @@ class GameSystem():
         self.Clock.tick(self.TickRate)
 
     ###############DRAWING
-
+    
     def DisplayText(self, message : str, xposition : int, yposition : int, color : Color):
-        Message = self.DefaultFont.render(message, True, color.value)
-        self.GameDisplay.blit(Message, [xposition, yposition])
+        Message = self.DefaultFont.render(message, True, color.value) #true är för anti aliasing som gör så att det blir smoother text
+        self.GameDisplay.blit(Message, [xposition, yposition]) 
 
+    #renderer är något som inte användarn ska kunna nå därför finns dessa
     def AddObjectToRenderer(self, object):
-        self.Renderer.Add(object)
+        self._Renderer.Add(object)
     def RemoveObjectFromRenderer(self, object):
-        self.Renderer.Remove(object)
+        self._Renderer.Remove(object)
+
     def ClearScreen(self, color : Color):
         self.GameDisplay.fill(color.value)

@@ -50,7 +50,7 @@ class snakegame():
         self.gameSystem.ClearScreen(Color.White)   
         if self.Scene == 1:
             self.DisplayScore()
-            self.gameSystem.Renderer.Draw()
+            self.gameSystem._Renderer.Draw()
         if self.Scene == 2:
             self.gameSystem.DisplayText("Klicka C för att spela igen", 100, 200, Color.Black)
 
@@ -62,21 +62,34 @@ class snakegame():
     def UpdatePlayerBodyPartCount(self):
         if self.latestUpdatedBodyPartCount != self.Player.BodyPartCount: 
             self.gameSystem.AddObjectToRenderer(self.Player.BodyDictionary[self.Player.BodyPartCount])
-            self.latestUpdatedBodyPartCount = self.Player.BodyPartCount 
+            self.latestUpdatedBodyPartCount = self.Player.BodyPartCount
 
     def EventHandler(self):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
                 self.gameSystem.StopRunning()
             if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_LEFT:
-                    self.Player.ChangeDirection(DirectionList.Left)
-                elif event.key == pygame.K_RIGHT:
-                    self.Player.ChangeDirection(DirectionList.Right)
-                elif event.key == pygame.K_UP:
-                    self.Player.ChangeDirection(DirectionList.Up)
-                elif event.key == pygame.K_DOWN:
-                    self.Player.ChangeDirection(DirectionList.Down)
+                if self.Scene == 1:
+                    if event.key == pygame.K_LEFT:
+                        self.Player.ChangeDirection(DirectionList.Left)
+                    elif event.key == pygame.K_RIGHT:
+                        self.Player.ChangeDirection(DirectionList.Right)
+                    elif event.key == pygame.K_UP:
+                        self.Player.ChangeDirection(DirectionList.Up)
+                    elif event.key == pygame.K_DOWN:
+                        self.Player.ChangeDirection(DirectionList.Down)
+                if self.Scene == 2:
+                    if event.key == pygame.K_c:
+                        self.ResetGame()
+                        self.Scene = 1
+                        self.gameSystem.AddObjectToRenderer(self.Player)
+    def ResetGame(self):
+        self.gameSystem.RemoveObjectFromRenderer(self.Food)
+        self.gameSystem.RemoveObjectFromRenderer(self.Player)
+        self.Player = Player(15,15, Color.Red, 10)
+        self.Score = 0
+        self.foodExists = False
+        self.Player.SetPosition(self.gameSystem.Resolution.x / 2, self.gameSystem.Resolution.y / 2)
 
     def AddFood(self):
         NewFood = Food(15,15, Color.Green)
