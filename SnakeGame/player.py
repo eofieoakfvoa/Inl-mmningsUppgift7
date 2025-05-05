@@ -1,6 +1,9 @@
 from Entity import * 
 from enum import Enum
+
+
 class Player(Entity):
+
     def __init__(self, SizeX, SizeY, Color, Speed):
         super().__init__()
         self.SetSize(SizeX, SizeY)
@@ -10,12 +13,15 @@ class Player(Entity):
         self.BodyPartCount = 1
         self._Direction = pygame.Vector2(0,0)
 
+    #kollar så att directionen inte är motsatta så man inte förlorar ifall man klickar fel knapp,
+    #dock så ifall åker åt höger sen klickar man up och vänster väldigt snabbt så kan man lyckas att byta åt andra hållet eftersom att den byter direction varje 30 tick
+    #fast den kollar varje frame
     def ChangeDirection(self, direction):
         if self.IsReverseDirection(direction): return
         self._Direction = direction.value
 
     def IsReverseDirection(self, direction):
-        return self._Direction + direction.value == pygame.Vector2(0,0) #ifall det är motsatta 
+        return self._Direction + direction.value == pygame.Vector2(0,0) #ifall det är motsatta så blir det (0,0) t.ex (-1,0) och (1,0) är (-1+1, 0+0) = (0,0)
     
     def MovePlayer(self):
 
@@ -24,6 +30,7 @@ class Player(Entity):
         y = self.Position.y + (self._Direction.y * self.Speed)
         self.SetPosition(x,y)
 
+    #lägger till en BodyPart och sätter den på samma position som den delen innan var på
     def AddBodyPart(self):
         newBodyPart = BodyPart(15,15, self.Color)
         newBodyPart.SetPosition(self.BodyDictionary[self.BodyPartCount].Position.x, self.BodyDictionary[self.BodyPartCount].Position.y)

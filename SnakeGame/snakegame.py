@@ -47,12 +47,12 @@ class snakegame():
                 self.Scene = 2
 
     def GameDraw(self):
-        self.gameSystem.ClearScreen()   
+        self.gameSystem.ClearScreen(Color.White)   
         if self.Scene == 1:
             self.DisplayScore()
             self.gameSystem.Renderer.Draw()
         if self.Scene == 2:
-            self.gameSystem.DisplayText("Klicka C för att spela igen")
+            self.gameSystem.DisplayText("Klicka C för att spela igen", 100, 200, Color.Black)
 
     def DisplayScore(self):
         self.gameSystem.DisplayText(f"du har {self.Score} poäng", 100, 200, Color.Black)
@@ -79,7 +79,7 @@ class snakegame():
                     self.Player.ChangeDirection(DirectionList.Down)
 
     def AddFood(self):
-        NewFood = Food(15,15, Color.Black)
+        NewFood = Food(15,15, Color.Green)
         foodX = round(random.randrange(0, int(self.gameSystem.Resolution.x) - 15) / 10.0) * 10.0
         foodY = round(random.randrange(0, int(self.gameSystem.Resolution.y) - 15) / 10.0) * 10.0
         NewFood.SetPosition(foodX, foodY)
