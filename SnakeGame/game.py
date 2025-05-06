@@ -6,6 +6,9 @@ from renderer import *
 #där allt här är general saker som kan behövas, dock eftersom det är gjort för snake spelet så är allt som finns just nu relaterat till snake
 #ett sätt att utveckla detta är att ha en bättre entity klass som har metoder som allt kan behöva t.ex att kolla collision.
 #hade nog föredragit pånågot sätt ifall gameloopen var här och sen att man hade klasser som var som scener som alla hade en event, draw och logic overrite metoder som den kallar
+
+
+#dessa enums är mest till för att det ska vara lättare när man skapar spel, att man vet vad man ska använda
 class Color(Enum):
     White = (255, 255, 255)
     Black = (0, 0, 0)
@@ -43,9 +46,9 @@ class GameSystem():
         self._WaitForTick()      
     def IsRunning(self):
         return self._Running
-    def StopRunning(self):
+    def StopRunning(self): #finns nog ett bättre namn, så finns det ingen direkt poäng att running är inom denna fil eftersom game loopen inte finns i denna kod, 
         self._Running = False
-    def _WaitForTick(self):
+    def _WaitForTick(self): #kanske hade varit bättre ifall den typ var static och retunerade något varje tick ifall man vill att något bara ska hände varje tick, dock just nu fungerar detta :D
         self.Clock.tick(self.TickRate)
 
     ###############DRAWING

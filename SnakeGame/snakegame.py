@@ -49,8 +49,8 @@ class snakegame():
     def GameDraw(self):
         self.gameSystem.ClearScreen(Color.White)   
         if self.Scene == 1:
-            self.DisplayScore()
-            self.gameSystem._Renderer.Draw()
+            self.DisplayScore() #eftersom denna är först så ritas den "under" det som är efter denna, vill man att texten ska vara högst upp borde man bara kunna flytta den under render.draw() har inte testat men borde fungera så
+            self.gameSystem._Renderer.Draw() #ignorera att den använder _renderer, där den inte borde använda det eftersom _ brukar betyda att den är privat, men python bryr sig inte och jag pallar inte fixa en egen metod för att rita
         if self.Scene == 2:
             self.gameSystem.DisplayText("Klicka C för att spela igen", 100, 200, Color.Black)
 
@@ -64,6 +64,8 @@ class snakegame():
             self.gameSystem.AddObjectToRenderer(self.Player.BodyDictionary[self.Player.BodyPartCount])
             self.latestUpdatedBodyPartCount = self.Player.BodyPartCount
 
+
+    #tar hand om alla inputs vet inte men det känns som jag kan skriva om dena del bättre, och såklart som jag nämnt innan att fixa ett bättre scene system
     def EventHandler(self):
         for event in pygame.event.get():
             if event.type==pygame.QUIT:
@@ -83,6 +85,8 @@ class snakegame():
                         self.ResetGame()
                         self.Scene = 1
                         self.gameSystem.AddObjectToRenderer(self.Player)
+
+    #resettar allt (tror jag), ifall jag inte använde removeobjectfromrenderer så ritas fortfarande sakerna när man startar om
     def ResetGame(self):
         self.gameSystem.RemoveObjectFromRenderer(self.Food)
         self.gameSystem.RemoveObjectFromRenderer(self.Player)
@@ -93,8 +97,8 @@ class snakegame():
 
     def AddFood(self):
         NewFood = Food(15,15, Color.Green)
-        foodX = round(random.randrange(0, int(self.gameSystem.Resolution.x) - 15) / 10.0) * 10.0
-        foodY = round(random.randrange(0, int(self.gameSystem.Resolution.y) - 15) / 10.0) * 10.0
+        foodX = round(random.randrange(0, int(self.gameSystem.Resolution.x) - 15) / 10.0) * 10.0 #tror at 10.0 ska igentligen vara player.speed så att spelarn och maten alltid är på samma grid
+        foodY = round(random.randrange(0, int(self.gameSystem.Resolution.y) - 15) / 10.0) * 10.0 
         NewFood.SetPosition(foodX, foodY)
         self.gameSystem.AddObjectToRenderer(NewFood)
         self.Food = NewFood
